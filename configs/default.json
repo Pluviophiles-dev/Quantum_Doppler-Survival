@@ -1,15 +1,27 @@
 {
-  "paths": {"figures": "figures", "data": "data"},
+  "paths": {
+    "figures": "figures",
+    "data": "data"
+  },
   "model": {
     "Ns_main": 100.0,
     "Ns_toy": 1.5,
     "M": 1,
-    "phase_diffusion_a_values": [0.5, 1.0, 2.0],
+    "phase_diffusion_a_values": [
+      0.5,
+      1.0,
+      2.0
+    ],
     "qzzb_prior_width": 3.141592653589793
   },
   "fock": {
     "cutoff": 8,
-    "cutoff_convergence_list": [6, 8, 10, 12],
+    "cutoff_convergence_list": [
+      6,
+      8,
+      10,
+      12
+    ],
     "max_qzzb_grid_points": 441
   },
   "grids": {
@@ -30,18 +42,57 @@
     "local_ratio_tolerance": 1.25
   },
   "rayleigh": {
-    "pressure_MPa_values": [10, 30, 35],
-    "wavelength_nm_values": [532, 633, 1064, 1550],
+    "pressure_MPa_values": [
+      10,
+      30,
+      35
+    ],
+    "wavelength_nm_values": [
+      532,
+      633,
+      1064,
+      1550
+    ],
     "temperature_K": 298.15,
-    "pulse_energy_J": 1e-6,
+    "pulse_energy_J": 1e-06,
     "probe_length_m": 0.01,
-    "collection_fraction": 1e-7,
+    "collection_fraction": 1e-07,
     "eta_sys": 0.05,
     "n_ref": 1.000444,
     "king_factor": 1.04,
-    "eta_s_assumed": 0.90,
-    "eta_i_assumed": 0.90,
-    "gamma_assumed": 0.50,
+    "eta_s_assumed": 0.9,
+    "eta_i_assumed": 0.9,
+    "gamma_assumed": 0.5,
     "assumed_mode_matching": "scenario-level assumed microscopic channel; Nret is not equated with Ns"
+  },
+  "detector": {
+    "dark_count_rate_Hz_values": [
+      1.0,
+      100.0,
+      10000.0,
+      1000000.0
+    ],
+    "background_rate_Hz": 100.0,
+    "gate_time_s": 1e-06,
+    "sbr_min": 3.0,
+    "min_signal_to_noise_photons": 1.0
+  },
+  "macro_demo": {
+    "pipe_length_m": 100.0,
+    "v0_m_per_s": 15.0,
+    "delta_v_m_per_s": 1.0,
+    "num_grid": 240,
+    "sensor_positions_m": [
+      10,
+      30,
+      50,
+      70,
+      90
+    ],
+    "correlation_length_m": 25.0,
+    "lambda0_m": 5.32e-07,
+    "tau_int_s": 1e-06,
+    "random_seed": 7,
+    "use_single_noise_realization": true
   }
 }

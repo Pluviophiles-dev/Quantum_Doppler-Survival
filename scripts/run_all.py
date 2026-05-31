@@ -18,9 +18,12 @@ def main() -> None:
     args = parser.parse_args()
     root = Path(__file__).resolve().parents[1]
     scripts = [
+        "00_conceptual_schematic.py",
         "01_phase_diffusion_envelope.py",
         "02_idler_loss_sensitivity.py",
         "04_scenario_mapping_table.py",
+        "05_dark_count_admissibility.py",
+        "06_macro_uncertainty_demo.py",
     ]
     for s in scripts:
         run([sys.executable, str(root / "scripts" / s), "--config", args.config])
