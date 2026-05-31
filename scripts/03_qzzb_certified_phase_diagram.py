@@ -1,11 +1,17 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from qdboundary.classification import CLASS_TO_INT, INT_TO_CLASS, classify_boundary_point
 from qdboundary.config import load_config
@@ -22,7 +28,7 @@ def main() -> None:
     args = parser.parse_args()
     cfg = load_config(args.config)
 
-    Ns = float(cfg["model"]["Ns_toy"])
+    Ns = float(cfg["model"]["Ns_diag"])
     cutoff = int(cfg["fock"]["cutoff"])
     M = int(cfg["model"]["M"])
     eta_n = 9 if args.fast else int(cfg["grids"]["eta_points_qzzb"])
@@ -64,7 +70,7 @@ def main() -> None:
             wrap_grid[gi, ei] = pwrap
             geff_grid[gi, ei] = g_eff
             rows.append({
-                "Ns_toy": Ns, "cutoff": cutoff, "tail_probability": tmsv_tail_probability(Ns, cutoff),
+                "Ns_diag": Ns, "cutoff": cutoff, "tail_probability": tmsv_tail_probability(Ns, cutoff),
                 "eta_s": eta_s, "eta_i": eta_i, "Gamma": gamma,
                 "Fq_fock": Fq, "local_variance": local_var, "qzzb_bound": zz,
                 "guard_ratio": guard_ratio, "phase_wrapping_probability": pwrap,

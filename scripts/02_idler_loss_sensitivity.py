@@ -1,11 +1,17 @@
 from __future__ import annotations
 
 import argparse
+import sys
 from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
+
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 from qdboundary.config import load_config
 from qdboundary.covariance import covariance_purity, epr_correlation_strength, tmsv_covariance
@@ -20,7 +26,7 @@ def main() -> None:
     args = parser.parse_args()
     cfg = load_config(args.config)
 
-    Ns = float(cfg["model"]["Ns_toy"])
+    Ns = float(cfg["model"]["Ns_diag"])
     cutoff = int(cfg["fock"]["cutoff"])
     gamma = 0.0
     etas = np.linspace(cfg["grids"]["eta_min"], cfg["grids"]["eta_max"], cfg["grids"]["eta_points_idler"])
@@ -45,7 +51,7 @@ def main() -> None:
             purity_grid[i, j] = purity
             corr_grid[i, j] = corr
             rows.append({
-                "Ns_toy": Ns, "cutoff": cutoff, "tail_probability": tmsv_tail_probability(Ns, cutoff),
+                "Ns_diag": Ns, "cutoff": cutoff, "tail_probability": tmsv_tail_probability(Ns, cutoff),
                 "eta_s": es, "eta_i": ei, "gamma": gamma,
                 "Fq_fock": F, "Fq_coherent": Fcs, "advantage_ratio_fock": ratio,
                 "covariance_purity": purity, "epr_correlation_strength": corr,
@@ -81,7 +87,7 @@ def main() -> None:
         for es, ei in points:
             rho = prepare_noisy_tmsv_density(Ns, int(c), es, ei, 0.0)
             F = qfi_unitary_generator(rho, Gc)
-            conv_rows.append({"cutoff": c, "Ns_toy": Ns, "eta_s": es, "eta_i": ei, "Fq": F, "ratio": F / coherent_qfi(es, Ns), "tail_probability": tmsv_tail_probability(Ns, int(c))})
+            conv_rows.append({"cutoff": c, "Ns_diag": Ns, "eta_s": es, "eta_i": ei, "Fq": F, "ratio": F / coherent_qfi(es, Ns), "tail_probability": tmsv_tail_probability(Ns, int(c))})
     pd.DataFrame(conv_rows).to_csv(Path(cfg["paths"]["data"]) / "idler_loss_cutoff_convergence.csv", index=False)
 
 

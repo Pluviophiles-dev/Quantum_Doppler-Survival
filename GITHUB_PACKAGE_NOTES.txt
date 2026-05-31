@@ -1,0 +1,7 @@
+Python reproduction package for GitHub update.
+Recommended checks after upload or clone:
+  pip install -r requirements.txt
+  python -m pytest -q tests
+  python scripts/run_all.py --config configs/default.json --skip-qzzb
+  python scripts/run_all.py --config configs/default.json
+The manuscript source files are not included in this Python package.

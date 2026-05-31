@@ -1,0 +1,2 @@
+Ns,M,eta_s,Gamma,G_eff,sigma_v_classical_m_per_s,sigma_v_tmsv_m_per_s,rmse_reconstruction_classical_m_per_s,rmse_reconstruction_tmsv_m_per_s,mean_posterior_uncertainty_classical_m_per_s,mean_posterior_uncertainty_tmsv_m_per_s,interpretation
+100.0,1,0.9,0.5,2.9171236490940946,0.0022302714960879956,0.001305810976413936,0.02466983028036937,0.024689635306508265,0.021695457938271715,0.021531119868510144,illustrative 1D uncertainty-transfer demo; not a completed industrial EnKF

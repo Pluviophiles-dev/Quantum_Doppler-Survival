@@ -5,7 +5,7 @@
   },
   "model": {
     "Ns_main": 100.0,
-    "Ns_toy": 1.5,
+    "Ns_diag": 1.5,
     "M": 1,
     "phase_diffusion_a_values": [
       0.5,
@@ -27,14 +27,14 @@
   "grids": {
     "eta_min": 0.2,
     "eta_max": 1.0,
-    "eta_points_envelope": 240,
+    "eta_points_envelope": 200,
     "gamma_min": 0.0,
     "gamma_max": 3.0,
-    "gamma_points_envelope": 180,
-    "eta_points_idler": 41,
-    "eta_points_qzzb": 17,
-    "gamma_points_qzzb": 17,
-    "tau_points_qzzb": 31
+    "gamma_points_envelope": 150,
+    "eta_points_idler": 11,
+    "eta_points_qzzb": 9,
+    "gamma_points_qzzb": 9,
+    "tau_points_qzzb": 15
   },
   "classification": {
     "guard_ratio_threshold": 2.0,

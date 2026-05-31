@@ -38,12 +38,17 @@ Dependencies
 from __future__ import annotations
 
 import argparse
+import sys
 import json
 from pathlib import Path
 
 import numpy as np
 import pandas as pd
 import matplotlib.pyplot as plt
+
+ROOT = Path(__file__).resolve().parents[1]
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
 
 try:
     from qdboundary.config import load_config as _load_config
