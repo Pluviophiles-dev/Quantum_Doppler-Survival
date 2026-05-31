@@ -1,7 +1,7 @@
 # Quantum_Doppler-Survival
 
 The Python package is intended to reproduce the numerical boundary maps, detector-admissibility scans, idler-loss sensitivity maps, diagnostic QZZB guardrails, scenario verdict tables, and the multilayer survival map used in the manuscript.
-
+DOI: https://doi.org/10.5281/zenodo.20477832
 ## Repository structure
 
 ```text
