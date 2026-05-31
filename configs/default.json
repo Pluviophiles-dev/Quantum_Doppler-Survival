@@ -1,0 +1,47 @@
+{
+  "paths": {"figures": "figures", "data": "data"},
+  "model": {
+    "Ns_main": 100.0,
+    "Ns_toy": 1.5,
+    "M": 1,
+    "phase_diffusion_a_values": [0.5, 1.0, 2.0],
+    "qzzb_prior_width": 3.141592653589793
+  },
+  "fock": {
+    "cutoff": 8,
+    "cutoff_convergence_list": [6, 8, 10, 12],
+    "max_qzzb_grid_points": 441
+  },
+  "grids": {
+    "eta_min": 0.2,
+    "eta_max": 1.0,
+    "eta_points_envelope": 240,
+    "gamma_min": 0.0,
+    "gamma_max": 3.0,
+    "gamma_points_envelope": 180,
+    "eta_points_idler": 41,
+    "eta_points_qzzb": 17,
+    "gamma_points_qzzb": 17,
+    "tau_points_qzzb": 31
+  },
+  "classification": {
+    "guard_ratio_threshold": 2.0,
+    "wrap_probability_threshold": 0.05,
+    "local_ratio_tolerance": 1.25
+  },
+  "rayleigh": {
+    "pressure_MPa_values": [10, 30, 35],
+    "wavelength_nm_values": [532, 633, 1064, 1550],
+    "temperature_K": 298.15,
+    "pulse_energy_J": 1e-6,
+    "probe_length_m": 0.01,
+    "collection_fraction": 1e-7,
+    "eta_sys": 0.05,
+    "n_ref": 1.000444,
+    "king_factor": 1.04,
+    "eta_s_assumed": 0.90,
+    "eta_i_assumed": 0.90,
+    "gamma_assumed": 0.50,
+    "assumed_mode_matching": "scenario-level assumed microscopic channel; Nret is not equated with Ns"
+  }
+}
