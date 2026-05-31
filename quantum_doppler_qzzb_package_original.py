@@ -611,9 +611,6 @@ Interpretation:
 - The QZZB-guarded RMSE is computed by max(local surrogate variance, QZZB lower bound), then mapped to velocity through sigma_v = sigma_phi/(|K_D| tau_int).
 - The idler-loss map uses a finite-dimensional numerical QFI formula for unitary signal-mode phase encoding.
 - The phase-wrapping map uses the local Gaussian error estimate P(|error|>pi).
-
-Suggested manuscript wording:
-"To avoid over-interpreting the local QFI surrogate in the strong-noise regime, we additionally implemented a finite-dimensional QZZB guard-check. The calculation is not used as a replacement for the analytic large-N_S boundary, but as a conservative numerical diagnostic indicating where the local RMSE interpretation should cease to be extrapolated."
 """
     with open(os.path.join(output_dir, "README_outputs.md"), "w", encoding="utf-8") as f:
         f.write(text)
