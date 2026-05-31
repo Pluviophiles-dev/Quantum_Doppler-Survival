@@ -2,39 +2,6 @@
 # -*- coding: utf-8 -*-
 """
 Quantum Doppler survival-boundary numerical add-on package
-===========================================================
-
-This single-file Python script supplements a theory manuscript on photon-starved
-quantum-enhanced Doppler velocimetry. It provides four lightweight, reproducible
-numerical studies that can be run by an independent researcher with only Python:
-
-1. QuTiP-style finite-dimensional toy QZZB guard-check.
-2. Fig. 5 replacement: QZZB-guarded velocity RMSE.
-3. Idler-loss sensitivity map.
-4. Phase-wrapping risk map.
-
-The code is written to be QuTiP-compatible in spirit, but it has a dense NumPy/SciPy
-fallback because many manuscript-build environments do not have QuTiP installed.
-If QuTiP is installed, the script will use qutip.metrics.fidelity for fidelity checks;
-otherwise it uses scipy.linalg.sqrtm.
-
-Recommended packages:
-    numpy scipy matplotlib
-Optional:
-    qutip
-
-Example:
-    python quantum_doppler_qzzb_package.py --mode all --output-dir qzzb_outputs
-
-Important interpretation notes:
-    - The finite-dimensional QZZB calculation is a toy global guard-check, not a
-      full high-photon-number non-Gaussian optimality proof.
-    - The manuscript-level analytic boundary may still use N_S=100, whereas this
-      finite-dimensional toy check should use smaller N_S, e.g. 1, 2, 5, or 10.
-    - The QZZB-guarded RMSE uses max(local surrogate variance, QZZB lower bound)
-      to indicate where local QFI-based interpretation should stop being extrapolated.
-
-Author: generated for the user's manuscript workflow
 """
 
 from __future__ import annotations
