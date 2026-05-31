@@ -35,3 +35,7 @@ scripts/
 
 tests/
   test_core_formulas.py
+
+pip install -r requirements.txt
+python scripts/run_all.py --config configs/default.json
+pytest
