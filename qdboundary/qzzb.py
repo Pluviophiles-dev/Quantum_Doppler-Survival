@@ -59,4 +59,9 @@ def qzzb_phase_bound(
         else:
             raise ValueError(f"Unknown convention: {convention}")
         vals.append(0.5 * tau * (1.0 - tau / W) * distinguish)
-    return float(np.trapz(vals, taus))
+    try:
+    integral = np.trapezoid(vals, taus)
+except AttributeError:
+    integral = np.trapz(vals, taus)
+
+return float(integral)
