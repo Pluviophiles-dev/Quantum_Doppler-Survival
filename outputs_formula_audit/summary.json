@@ -1,0 +1,8 @@
+{
+  "points": 24,
+  "highest_cutoff_points": 12,
+  "fraction_current_matches_5pct_highest": 0.4166666666666667,
+  "fraction_legacy_matches_5pct_highest": 0.16666666666666666,
+  "max_tail_probability_highest": 0.03167635202407837,
+  "interpretation": "The current analytic formula is the Fock-consistent convention used by the exact finite-Fock SLD-QFI implementation; the legacy factor-2 formula is retained only for audit/reproducibility."
+}

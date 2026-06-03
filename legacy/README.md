@@ -1,4 +1,3 @@
 # Legacy scripts
 
-This folder contains early single-file scripts retained for traceability.  
-The recommended reproduction interface is the modular `qdboundary/` package and the scripts in `scripts/`.
+This folder contains early single-file plotting scripts retained for traceability. They are not the recommended reproduction interface. The current workflow is the modular `qdboundary/` package together with the scripts in `scripts/`.

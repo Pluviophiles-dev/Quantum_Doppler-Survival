@@ -1,0 +1,26 @@
+[
+  {
+    "claim_level": "conditional_local_boundary",
+    "status": "supported_with_assumptions",
+    "reason": "The package implements the stated local QFI, photon-budget, detector, idler, and diagnostic guard screens.",
+    "safe_wording": "conditional local-channel admissibility boundary under stated proxy assumptions"
+  },
+  {
+    "claim_level": "diagnostic_guardrail",
+    "status": "supported_with_labels",
+    "reason": "QZZB, Gaussian-fidelity, diffusion, and transduction outputs are labelled as diagnostics or heuristics.",
+    "safe_wording": "diagnostic guardrail against unsafe local-QFI extrapolation"
+  },
+  {
+    "claim_level": "engineering_screen",
+    "status": "partially_supported",
+    "reason": "The photon and detector screens are useful engineering filters but are not calibrated instrument models.",
+    "safe_wording": "engineering pre-screen, not validation"
+  },
+  {
+    "claim_level": "instrument_validation",
+    "status": "not_supported",
+    "reason": "The package lacks calibrated hardware, turbulence-resolved propagation, multiple-scattering transport, and full uncertainty validation.",
+    "safe_wording": "future work toward instrument validation"
+  }
+]

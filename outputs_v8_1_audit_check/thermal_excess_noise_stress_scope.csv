@@ -1,0 +1,21 @@
+n_th_or_excess_mode_noise,NS_target,noise_to_signal_ratio,interpretation,recommendation
+0.0,0.1,0.0,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+0.0,0.5,0.0,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+0.0,1.0,0.0,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+0.0,1.5,0.0,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+1e-06,0.1,9.999999999999999e-06,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+1e-06,0.5,2e-06,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+1e-06,1.0,1e-06,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+1e-06,1.5,6.666666666666666e-07,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+1e-05,0.1,0.0001,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+1e-05,0.5,2e-05,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+1e-05,1.0,1e-05,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+1e-05,1.5,6.6666666666666675e-06,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+0.0001,0.1,0.001,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+0.0001,0.5,0.0002,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+0.0001,1.0,0.0001,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+0.0001,1.5,6.666666666666667e-05,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+0.001,0.1,0.01,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+0.001,0.5,0.002,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+0.001,1.0,0.001,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified
+0.001,1.5,0.0006666666666666666,"excess-noise stress coordinate, not a room-temperature optical blackbody claim",model as detector/background unless a same-spatiotemporal-mode thermal-loss mechanism is specified

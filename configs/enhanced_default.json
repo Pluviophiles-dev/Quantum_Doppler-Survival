@@ -1,0 +1,18 @@
+{
+  "gaussian": {
+    "ns": 30.0,
+    "eta_i": 0.95,
+    "prior_width": "pi"
+  },
+  "transduction": {
+    "pressure_mpa": 30.0,
+    "wavelength_nm": 1064.0,
+    "pulse_energy_j": 1e-06
+  },
+  "detector": {
+    "dark_rate_hz": 25.0,
+    "background_rate_hz": 100.0,
+    "gate_time_s": 1e-06
+  },
+  "scope_note": "Phase diffusion is a Gaussian covariance surrogate, not an exact non-Gaussian channel solution."
+}

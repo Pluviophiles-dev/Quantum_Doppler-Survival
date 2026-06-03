@@ -1,0 +1,22 @@
+{
+  "version": "v8.1 compact audit",
+  "photon_budget": {
+    "dense_factor_range": [
+      0.1,
+      10.0
+    ],
+    "min_Nret": 0.00017533333333333333,
+    "max_Nret": 15.166666666666668,
+    "mode_bridge": "N_mode = chi_mode*Nret; high-NS maps are target-channel topology, not predicted pipeline occupancy"
+  },
+  "exact_qfi": {
+    "points": 72,
+    "fraction_G_exact_gt_1": 0.16666666666666666,
+    "fraction_G_exact_gt_1_when_Gamma_s_gt_0": 0.0,
+    "max_tail_probability": 0.015625,
+    "cutoff": 6,
+    "scope": "low-photon finite-Fock diagnostic with idler phase-noise stress test"
+  },
+  "G_eff": "retained only as optimistic candidate envelope, not exact non-Gaussian QFI",
+  "macro_uncertainty_appendix": "removed/downgraded from manuscript; no single-seed toy curve is used for claims"
+}

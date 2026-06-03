@@ -1,0 +1,82 @@
+[
+  {
+    "component": "Rayleigh photon budget",
+    "layer": "radiometric return",
+    "evidence_level": "standard_formula",
+    "implemented_as": "single-scattering homogeneous-volume photon-count proxy",
+    "not_implemented": "radiative-transfer, window fouling, beam clipping, calibrated gas-mixture cross sections",
+    "safe_claim": "computes reproducible photon-budget anchors under stated proxy assumptions",
+    "unsafe_claim": "validates a field Rayleigh velocimeter photon return",
+    "required_for_stronger_claim": "gas-specific cross sections, calibrated optical train, uncertainty budget, validation data"
+  },
+  {
+    "component": "TMSV pure-loss QFI",
+    "layer": "microscopic quantum channel",
+    "evidence_level": "standard_formula",
+    "implemented_as": "one-sided pure-loss local QFI benchmark with equal signal-energy comparison",
+    "not_implemented": "optimal receiver design, finite-prior attainability, source engineering",
+    "safe_claim": "tests whether a conditional local channel can exceed the coherent SQL benchmark",
+    "unsafe_claim": "demonstrates an attainable Rayleigh-scattering quantum advantage",
+    "required_for_stronger_claim": "receiver POVM model, finite-prior bound at target photon number, experiment or independent simulation"
+  },
+  {
+    "component": "Phase diffusion envelope",
+    "layer": "channel stress screen",
+    "evidence_level": "phenomenological_heuristic",
+    "implemented_as": "Geff = GQ exp(-a Gamma) with labelled heuristic policy",
+    "not_implemented": "exact non-Gaussian dephasing QFI or turbulence-derived phase statistics",
+    "safe_claim": "flags parameter regions where local pure-loss extrapolation should be guarded",
+    "unsafe_claim": "solves turbulence-induced quantum decoherence",
+    "required_for_stronger_claim": "derived stochastic refractive-index model, exact/non-Gaussian QFI or validated Monte Carlo"
+  },
+  {
+    "component": "Finite-dimensional QZZB",
+    "layer": "global distinguishability diagnostic",
+    "evidence_level": "numerical_diagnostic",
+    "implemented_as": "truncated-Fock low-photon-number QZZB guard with cutoff reports",
+    "not_implemented": "high-NS global optimality certificate",
+    "safe_claim": "falsifies unsafe local-QFI extrapolation in diagnostic regimes",
+    "unsafe_claim": "certifies high-photon-number global performance",
+    "required_for_stronger_claim": "cutoff-converged high-NS calculation or analytic Gaussian/non-Gaussian global bound"
+  },
+  {
+    "component": "Gaussian-fidelity diagnostic",
+    "layer": "high-NS covariance stress check",
+    "evidence_level": "numerical_diagnostic",
+    "implemented_as": "zero-mean Gaussian covariance fidelity with cross-covariance damping surrogate",
+    "not_implemented": "exact number-dephasing channel in covariance form",
+    "safe_claim": "provides a labelled covariance-level stress test",
+    "unsafe_claim": "proves exact phase-diffusion-limited quantum performance",
+    "required_for_stronger_claim": "exact channel map or benchmark against independent non-Gaussian calculations"
+  },
+  {
+    "component": "Mode transduction bridge",
+    "layer": "single-mode coupling",
+    "evidence_level": "phenomenological_heuristic",
+    "implemented_as": "Gaussian spatial overlap, temporal gate overlap, and explicit purity factors",
+    "not_implemented": "CFD, turbulence propagation, speckle statistics, multiple-scattering wave transport",
+    "safe_claim": "makes single-mode assumptions auditable and stress-testable",
+    "unsafe_claim": "derives a complete source-to-detector TMSV Rayleigh channel",
+    "required_for_stronger_claim": "optical propagation model, measured mode overlap, turbulence/multiple-scattering validation"
+  },
+  {
+    "component": "Detector FI benchmark",
+    "layer": "receiver likelihood",
+    "evidence_level": "engineering_screen",
+    "implemented_as": "simple Poisson count model with dark/background counts and visibility",
+    "not_implemented": "detector dead time, afterpulsing, saturation, full receiver POVM",
+    "safe_claim": "screens whether count-level receiver assumptions are admissible",
+    "unsafe_claim": "models an optimal instrument receiver",
+    "required_for_stronger_claim": "detector characterization, calibration model, likelihood validation"
+  },
+  {
+    "component": "Macro uncertainty transfer",
+    "layer": "future instrument interface",
+    "evidence_level": "illustrative_interface",
+    "implemented_as": "simple 1D uncertainty propagation demo",
+    "not_implemented": "industrial EnKF, flow profile validation, traceability chain",
+    "safe_claim": "shows how a local phase variance could enter a later uncertainty budget",
+    "unsafe_claim": "validates high-pressure pipeline flow measurement",
+    "required_for_stronger_claim": "GUM budget, flow facility data, calibrated reconstruction algorithm"
+  }
+]
