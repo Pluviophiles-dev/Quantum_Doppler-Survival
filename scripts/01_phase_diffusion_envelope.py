@@ -14,7 +14,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from qdboundary.config import load_config
-from qdboundary.formulas import gamma_max, geff, gq_pure_loss
+from qdboundary.formulas import gamma_max, geff, gq_pure_loss, eta_threshold_equal_total
 from qdboundary.plotting import savefig
 
 
@@ -36,7 +36,9 @@ def main() -> None:
             for e, g in zip(eta, gm):
                 rows.append({"Ns": Ns, "a": a, "eta_s": e, "gamma_max": g, "GQ": gq_pure_loss(e, Ns)})
             plt.plot(eta, gm, label=f"Ns={Ns:g}, a={a:g}")
-    plt.axvline(0.5, linestyle="--", linewidth=1.0, label="SQL boundary eta=0.5")
+    thr = eta_threshold_equal_total(float(cfg["model"]["Ns_main"]))
+    if np.isfinite(thr) and 0 <= thr <= 1:
+        plt.axvline(thr, linestyle="--", linewidth=1.0, label=f"equal-total threshold eta={thr:.3f}")
     plt.xlabel("Signal transmittance eta_s")
     plt.ylabel("Survival boundary Gamma_max")
     plt.title("Phase-diffusion uncertainty envelope")
@@ -57,7 +59,7 @@ def main() -> None:
     plt.colorbar(im, label="G_eff")
     plt.xlabel("Signal transmittance eta_s")
     plt.ylabel("Accumulated phase diffusion Gamma")
-    plt.title("Baseline local survival map")
+    plt.title("Baseline local screening map")
     savefig(Path(cfg["paths"]["figures"]) / "fig_baseline_geff_map.png")
 
 

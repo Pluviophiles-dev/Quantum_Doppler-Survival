@@ -13,7 +13,7 @@ reconstruction. It only demonstrates a minimal uncertainty-transfer interface:
     microscopic phase RMSE  -> velocity-observation noise
                             -> 1D velocity-profile uncertainty band
 
-The quantum-enhanced case uses the manuscript's local effective relation
+The TMSV-assisted case uses the manuscript's local effective relation
 
     sigma_v,TMSV = sigma_v,CS / sqrt(G_eff)
 
@@ -103,7 +103,7 @@ def load_config(path: str | Path) -> dict:
 def geff(eta_s: float, Ns: float, Gamma: float) -> float:
     if _geff is not None:
         return float(_geff(eta_s, Ns, Gamma, a=1.0))
-    return float(((Ns + 1.0) / (1.0 + 2.0 * (1.0 - eta_s) * Ns)) * np.exp(-Gamma))
+    return float(((Ns + 1.0) / (1.0 + (1.0 - eta_s) * Ns)) * np.exp(-Gamma))
 
 
 def doppler_k(lambda0_m: float, ng: float = 1.000444) -> float:

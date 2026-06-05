@@ -5,8 +5,8 @@ multilayer_survival_map.py
 
 Purpose
 -------
-Generate a "multilayer survival map" for photon-starved high-pressure-gas
-quantum-enhanced Rayleigh-Doppler velocimetry.
+Generate a multilayer admissibility map for photon-starved high-pressure-gas
+TMSV-assisted Rayleigh-Doppler phase estimation.
 
 This script is designed for the manuscript narrative:
 
@@ -36,12 +36,12 @@ Example
 -------
 python multilayer_survival_map.py
 
-Author note
------------
+Notes
+-----
 The detector, idler, and phase-wrapping layers are diagnostic screening layers.
 The "guarded" class here is a local-boundary guard-band / wrapping-risk screen.
-If you have a finite-dimensional QZZB module, replace the guard-band logic by
-your computed Sigma_ZZ / Var_local ratio.
+When finite-dimensional QZZB outputs are available, the guard-band logic can be
+replaced by the computed Sigma_ZZ / Var_local ratio.
 """
 
 from __future__ import annotations
@@ -226,17 +226,17 @@ def coherent_qfi(eta_s: np.ndarray, N_S: float) -> np.ndarray:
 
 
 def tmsv_pure_loss_qfi(eta_s: np.ndarray, N_S: float) -> np.ndarray:
-    return 4.0 * eta_s * N_S * (N_S + 1.0) / (1.0 + 2.0 * (1.0 - eta_s) * N_S)
+    return 4.0 * eta_s * N_S * (N_S + 1.0) / (1.0 + (1.0 - eta_s) * N_S)
 
 
 def G_Q(eta_s: np.ndarray, N_S: float) -> np.ndarray:
     """Equal-signal-energy TMSV/coherent pure-loss QFI advantage ratio."""
-    return (N_S + 1.0) / (1.0 + 2.0 * (1.0 - eta_s) * N_S)
+    return (N_S + 1.0) / (1.0 + (1.0 - eta_s) * N_S)
 
 
 def G_total(eta_s: np.ndarray, N_S: float) -> np.ndarray:
     """Conservative equal-total-source-energy advantage ratio."""
-    return (N_S + 1.0) / (2.0 * (1.0 + 2.0 * (1.0 - eta_s) * N_S))
+    return (N_S + 1.0) / (2.0 * (1.0 + (1.0 - eta_s) * N_S))
 
 
 def G_eff(eta_s: np.ndarray, gamma: np.ndarray, qcfg: QuantumBoundaryConfig) -> np.ndarray:
@@ -296,7 +296,7 @@ CLASS_LABELS = {
     2: "no local QFI advantage",
     3: "phase/wrapping stop",
     4: "guarded",
-    5: "usable island",
+    5: "local-channel-valid",
 }
 
 
@@ -343,7 +343,7 @@ def classify_grid(
     # Layer 5: guard band near boundary.
     cls[(Ge > 1.0) & (Ge < qcfg.guard_Geff_min) & (Pwrap < qcfg.p_wrap_threshold)] = 4
 
-    # Remaining points are usable island.
+    # Remaining points are local-channel-valid.
     return cls
 
 
@@ -369,7 +369,7 @@ def layer_fractions(
         fractions["idler preserved"] = 0.0
         fractions["G_eff > 1"] = 0.0
         fractions["phase-wrap safe"] = 0.0
-        fractions["usable island"] = 0.0
+        fractions["local-channel-valid"] = 0.0
         return fractions
 
     idler = qcfg.eta_i >= qcfg.eta_i_min
@@ -377,7 +377,7 @@ def layer_fractions(
     if not idler:
         fractions["G_eff > 1"] = 0.0
         fractions["phase-wrap safe"] = 0.0
-        fractions["usable island"] = 0.0
+        fractions["local-channel-valid"] = 0.0
         return fractions
 
     Ge = G_eff(eta_grid, gamma_grid, qcfg)
@@ -389,7 +389,7 @@ def layer_fractions(
 
     fractions["G_eff > 1"] = float(mask_adv.sum() / total)
     fractions["phase-wrap safe"] = float(mask_wrap.sum() / total)
-    fractions["usable island"] = float(mask_usable.sum() / total)
+    fractions["local-channel-valid"] = float(mask_usable.sum() / total)
     return fractions
 
 
@@ -423,7 +423,7 @@ def scenario_verdict(
         return "stop-extrapolation", "phase-wrapping risk exceeds threshold", gq, ge, pw
     if ge < qcfg.guard_Geff_min:
         return "guarded", "near local boundary; QZZB/global audit recommended", gq, ge, pw
-    return "local-valid", "passes configured multilayer screens", gq, ge, pw
+    return "local-channel-valid", "passes configured multilayer screens", gq, ge, pw
 
 
 def write_scenario_table(
@@ -441,10 +441,10 @@ def write_scenario_table(
         ("A_pass_green_532", 30.0, 532.0, 0.90, 0.90, 0.50),
         ("B_photon_starved_pass_1064", 30.0, 1064.0, 0.90, 0.90, 0.50),
         ("C_detector_limited_1550_high_dark", 30.0, 1550.0, 0.90, 0.90, 0.50),
-        ("D_signal_loss_fail", 30.0, 532.0, 0.45, 0.90, 0.50),
-        ("E_diffusion_fail", 30.0, 532.0, 0.90, 0.90, 2.00),
+        ("D_transduction_low_eta_fail", 30.0, 532.0, 0.005, 0.90, 0.50),
+        ("E_diffusion_fail", 30.0, 532.0, 0.90, 0.90, 3.00),
         ("F_idler_limited", 30.0, 532.0, 0.90, 0.50, 0.50),
-        ("G_guarded_near_boundary", 30.0, 532.0, 0.70, 0.90, 0.55),
+        ("G_guarded_near_boundary", 30.0, 532.0, 0.70, 0.90, 1.00),
     ]
 
     with out_csv.open("w", newline="", encoding="utf-8") as f:
@@ -472,7 +472,7 @@ def write_scenario_table(
             # so the table contains a real detector-fail example.
             local_qcfg = QuantumBoundaryConfig(**vars(qcfg))
             if "detector_limited" in label:
-                local_qcfg.dark_count_rate_Hz = 1.0e4
+                local_qcfg.dark_count_rate_Hz = 1.0e5
                 local_qcfg.SBR_min = 5.0
 
             nret = float(rayleigh_return_photons(P, lam, pcfg))
@@ -530,7 +530,7 @@ def make_multilayer_figure(
     P0 = zero_count_probability(NRET)
     det_margin = detector_margin_log10(NRET, qcfg)
 
-    # Survival funnel
+    # Admissibility funnel
     fracs = layer_fractions(ETA, GAMMA, scenario_Nret, qcfg)
     stages = list(fracs.keys())
     vals = np.array([fracs[s] for s in stages])
@@ -542,7 +542,7 @@ def make_multilayer_figure(
         "#d73027",  # no local QFI advantage
         "#fc8d59",  # phase/wrapping stop
         "#fee08b",  # guarded
-        "#1a9850",  # usable island
+        "#1a9850",  # local-channel-valid
     ]
     cmap = ListedColormap(colors)
     norm = BoundaryNorm(np.arange(-0.5, 6.5, 1.0), cmap.N)
@@ -556,12 +556,13 @@ def make_multilayer_figure(
     Ge = G_eff(ETA, GAMMA, qcfg)
     ax0.contour(ETA, GAMMA, Ge, levels=[1.0], colors="white", linewidths=2.0)
     ax0.contour(ETA, GAMMA, Ge, levels=[qcfg.guard_Geff_min], colors="black", linewidths=1.2, linestyles="--")
-    ax0.axvline(0.5, color="white", linestyle=":", linewidth=1.5)
-    ax0.axvline(0.75, color="black", linestyle=":", linewidth=1.5)
+    eta_tot = 0.5 * (1.0 + 1.0 / qcfg.N_S) if qcfg.N_S > 1 else None
+    if eta_tot is not None and 0.0 <= eta_tot <= 1.0:
+        ax0.axvline(eta_tot, color="black", linestyle=":", linewidth=1.5)
     ax0.set_xlabel(r"Signal transmittance $\eta_s$")
     ax0.set_ylabel(r"Accumulated phase diffusion $\Gamma$")
     ax0.set_title(
-        "A. Multilayer survival classification\n"
+        "A. Multilayer admissibility classification\n"
         f"scenario: P={scenario_pressure_MPa:g} MPa, λ={scenario_lambda_nm:g} nm, "
         f"Nret={scenario_Nret:.3g}, detector={'pass' if det_pass else 'fail'}"
     )
@@ -575,8 +576,8 @@ def make_multilayer_figure(
     ax1.set_yticks(y, stages)
     ax1.invert_yaxis()
     ax1.set_xlim(0.0, 1.05)
-    ax1.set_xlabel("Fraction of ηs–Γ grid surviving")
-    ax1.set_title("B. Sequential survival funnel")
+    ax1.set_xlabel("Fraction of ηs–Γ grid retained")
+    ax1.set_title("B. Sequential admissibility funnel")
     for yy, v in zip(y, vals):
         ax1.text(v + 0.02, yy, f"{100*v:.1f}%", va="center", fontsize=9)
     ax1.grid(axis="x", alpha=0.25)
@@ -609,7 +610,7 @@ def make_multilayer_figure(
     ax3.set_title("D. Detector-admissibility layer")
 
     fig.suptitle(
-        "Multilayer survival map for photon-starved quantum-enhanced Rayleigh-Doppler velocimetry",
+        "Multilayer admissibility map for TMSV-assisted Rayleigh-Doppler phase estimation",
         fontsize=14,
         y=0.99,
     )
@@ -622,7 +623,7 @@ def make_multilayer_figure(
 
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser(
-        description="Generate a multilayer survival map for the quantum Doppler boundary framework."
+        description="Generate a multilayer admissibility map for the conditional TMSV-assisted Doppler framework."
     )
     parser.add_argument("--outdir", type=str, default="outputs", help="Output directory.")
     parser.add_argument("--pressure", type=float, default=30.0, help="Scenario pressure in MPa.")
@@ -704,8 +705,9 @@ def main() -> None:
         print(f"  lambda={lam:6.1f} nm: N_ret={nret:.6g}, P0={math.exp(-nret):.6g}, regime={photon_regime(nret)}")
     print("")
     print("Analytic thresholds:")
-    print("  Equal-signal-energy pure-loss SQL boundary: eta_s = 0.5")
-    print(f"  Equal-total-source-energy threshold: eta_c = {0.75 + 1.0/(4.0*qcfg.N_S):.6g} for N_S={qcfg.N_S:g}")
+    print("  Equal-signal-energy pure-loss ratio uses the Fock-consistent formula; no eta_s=0.5 hard boundary.")
+    eta_tot = 0.5 * (1.0 + 1.0/qcfg.N_S) if qcfg.N_S > 1 else float("inf")
+    print(f"  Equal-total-source-energy threshold: eta_c = {eta_tot:.6g} for N_S={qcfg.N_S:g}")
     print("  Loss-diffusion boundary: Gamma_max = ln G_Q(eta_s, N_S) / a")
 
 

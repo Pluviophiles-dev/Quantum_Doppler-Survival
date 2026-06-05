@@ -75,7 +75,7 @@ def draw_conceptual_schematic(output: Path, dpi: int = 300) -> None:
     ax.set_ylim(0, 8)
     ax.axis("off")
 
-    ax.text(7, 7.65, "System overview: photon-starved quantum-enhanced Doppler velocimetry",
+    ax.text(7, 7.65, "System overview: conditional TMSV-assisted Rayleigh-Doppler phase-estimation framework",
             ha="center", va="center", fontsize=16, fontweight="bold")
 
     _box(ax, (0.45, 4.95), 2.25, 1.05, "TMSV source\nsignal + idler", fc="#EAF2FF", ec="#1F4E79", fontsize=11)
@@ -110,7 +110,7 @@ def draw_conceptual_schematic(output: Path, dpi: int = 300) -> None:
     ax.text(10.28, 3.12, r"dark/background counts: $N_{dark}+N_{bg}$", ha="center", fontsize=8.6, color="#2E7D32")
 
     _box(ax, (11.9, 3.05), 1.65, 1.75, "decision layer\n\nSQL baseline\nTMSV QFI\nQZZB guard", fc="#FFF8E7", ec="#9C6500", fontsize=9.3)
-    _box(ax, (11.75, 5.45), 1.95, 0.62, "local-valid", fc="#E8F5E9", ec="#2E7D32", fontsize=9)
+    _box(ax, (11.75, 5.45), 1.95, 0.62, "local-channel-valid", fc="#E8F5E9", ec="#2E7D32", fontsize=9)
     _box(ax, (11.75, 4.78), 1.95, 0.62, "guarded", fc="#FFF8E1", ec="#C48A00", fontsize=9)
     _box(ax, (11.75, 2.25), 1.95, 0.62, "stop-extrapolation", fc="#FFEBEE", ec="#B71C1C", fontsize=9)
 
