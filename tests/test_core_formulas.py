@@ -2,7 +2,10 @@ import numpy as np
 
 from qdboundary.formulas import (
     gamma_max,
+    gq_equal_total_energy,
     gq_pure_loss,
+    gq_pure_loss_legacy_factor2,
+    eta_threshold_equal_total,
     tmsv_pure_loss_qfi,
     wrapping_probability_gaussian,
 )
@@ -14,17 +17,33 @@ def test_lossless_tmsv_qfi():
     assert np.isclose(tmsv_pure_loss_qfi(1.0, Ns), 4 * Ns * (Ns + 1))
 
 
-def test_sql_boundary_equal_signal_energy():
+def test_fock_consistent_formula_has_no_eta_half_equal_signal_boundary():
     for Ns in [0.5, 1.5, 10.0, 100.0]:
-        assert np.isclose(gq_pure_loss(0.5, Ns), 1.0)
+        assert gq_pure_loss(0.5, Ns) > 1.0
 
 
-def test_high_loss_collapse():
-    assert gq_pure_loss(0.3, 100.0) < 1.0
+def test_legacy_factor2_formula_is_not_default():
+    Ns = 3.0
+    eta = 0.7
+    assert gq_pure_loss(eta, Ns) > gq_pure_loss_legacy_factor2(eta, Ns)
 
 
-def test_gamma_boundary_anchor():
-    assert np.isclose(gamma_max(np.array([0.9]), 100.0, a=1.0)[0], 1.5706, rtol=5e-4)
+def test_equal_total_threshold_corrected():
+    Ns = 10.0
+    thr = eta_threshold_equal_total(Ns)
+    assert np.isclose(thr, 0.55)
+    assert gq_equal_total_energy(thr + 1e-3, Ns) > 1.0
+    assert gq_equal_total_energy(thr - 1e-3, Ns) < 1.0
+
+
+def test_high_loss_equal_signal_collapses_to_near_unity_not_false_advantage():
+    assert np.isclose(gq_pure_loss(0.0, 100.0), 1.0)
+    assert gq_pure_loss(0.005, 100.0) < 1.01
+
+
+def test_gamma_boundary_anchor_corrected_formula():
+    expected = np.log((100.0 + 1.0) / (1.0 + (1.0 - 0.9) * 100.0))
+    assert np.isclose(gamma_max(np.array([0.9]), 100.0, a=1.0)[0], expected, rtol=1e-10)
 
 
 def test_wrapping_probability_monotone():
