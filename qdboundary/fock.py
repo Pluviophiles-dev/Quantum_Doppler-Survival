@@ -111,14 +111,14 @@ def qfi_unitary_generator(rho: np.ndarray, generator: np.ndarray, eig_tol: float
     vals, vecs = eigh(hermitize(rho))
     vals = np.maximum(vals.real, 0.0)
     G_eig = vecs.conj().T @ generator @ vecs
-    F = 0.0
-    d = len(vals)
-    for i in range(d):
-        for j in range(d):
-            denom = vals[i] + vals[j]
-            if denom > eig_tol:
-                F += 2.0 * ((vals[i] - vals[j]) ** 2) / denom * (abs(G_eig[i, j]) ** 2)
-    return float(max(F.real, 0.0))
+    li = vals[:, None]
+    lj = vals[None, :]
+    denom = li + lj
+    mask = denom > eig_tol
+    weights = np.zeros_like(denom, dtype=float)
+    weights[mask] = ((li - lj)[mask] ** 2) / denom[mask]
+    F = 2.0 * np.sum(weights * (np.abs(G_eig) ** 2))
+    return float(max(float(np.real_if_close(F).real), 0.0))
 
 
 def hermitize(A: np.ndarray) -> np.ndarray:

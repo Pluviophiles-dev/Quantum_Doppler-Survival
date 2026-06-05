@@ -1,7 +1,5 @@
 from __future__ import annotations
 
-from typing import Literal
-
 import numpy as np
 
 from .fock import apply_signal_phase_shift, hermitize
@@ -14,11 +12,18 @@ def _sqrt_psd(rho: np.ndarray, tol: float = 1e-13) -> np.ndarray:
     return (vecs * np.sqrt(vals)[None, :]) @ vecs.conj().T
 
 
-def fidelity_unsquared(rho: np.ndarray, sigma: np.ndarray) -> float:
-    """Uhlmann fidelity amplitude Tr sqrt(sqrt(rho) sigma sqrt(rho)).
+def fidelity_amplitude(rho: np.ndarray, sigma: np.ndarray) -> float:
+    """Return the Uhlmann fidelity amplitude.
 
-    Density matrices are Hermitized and small negative eigenvalues from roundoff
-    are projected to zero inside the PSD square-root routine.
+    This function returns
+        F_amp(rho, sigma) = Tr sqrt(sqrt(rho) sigma sqrt(rho)).
+
+    The squared Uhlmann fidelity used in the QZZB integrand is
+        F = F_amp**2.
+
+    Keeping the amplitude and squared fidelity explicitly separated prevents the
+    ambiguity that can arise when different papers use different symbols for
+    fidelity.
     """
     rho = hermitize(rho)
     sigma = hermitize(sigma)
@@ -30,38 +35,75 @@ def fidelity_unsquared(rho: np.ndarray, sigma: np.ndarray) -> float:
     return float(np.clip(val, 0.0, 1.0))
 
 
+# Backward-compatible alias for older scripts. The old name was potentially
+# ambiguous, because it returned an amplitude, not the squared Uhlmann fidelity.
+fidelity_unsquared = fidelity_amplitude
+
+
+def uhlmann_fidelity_squared(rho: np.ndarray, sigma: np.ndarray) -> float:
+    """Return the squared Uhlmann fidelity F in the standard QZZB convention."""
+    amp = fidelity_amplitude(rho, sigma)
+    return float(np.clip(amp * amp, 0.0, 1.0))
+
+
+def qzzb_distinguishability_from_fidelity_squared(F_sq: float | np.ndarray) -> float | np.ndarray:
+    """QZZB binary-testing bracket using squared Uhlmann fidelity.
+
+    For F(rho, sigma) = [Tr sqrt(sqrt(rho) sigma sqrt(rho))]^2, the bracket is
+        1 - sqrt(1 - F).
+
+    No amplitude-as-written switch is provided. Using the amplitude directly in
+    this expression would change the bound and is therefore disallowed.
+    """
+    F_sq_arr = np.clip(F_sq, 0.0, 1.0)
+    return 1.0 - np.sqrt(np.maximum(0.0, 1.0 - F_sq_arr))
+
+
+def qzzb_integrand_from_fidelity_squared(
+    tau: float | np.ndarray,
+    F_sq: float | np.ndarray,
+    prior_width: float,
+) -> float | np.ndarray:
+    """Return the scalar QZZB integrand for a phase prior of width W."""
+    W = float(prior_width)
+    if W <= 0:
+        raise ValueError("prior_width must be positive.")
+    return 0.5 * tau * (1.0 - tau / W) * qzzb_distinguishability_from_fidelity_squared(F_sq)
+
+
 def qzzb_phase_bound(
     rho0: np.ndarray,
     cutoff: int,
     prior_width: float,
     tau_points: int = 41,
-    convention: Literal["paper_unsquared", "squared"] = "paper_unsquared",
 ) -> float:
-    """Numerically integrate a QZZB phase bound over tau in [0,W].
+    """Numerically integrate a phase QZZB over tau in [0, W].
 
-    default convention follows the manuscript's written form:
-        integrand = 0.5 * tau * (1 - tau/W) * [1 - sqrt(1 - F_amp)]
-    where F_amp = Tr sqrt(sqrt(rho) sigma sqrt(rho)).
+    Convention used here, and only here:
+        F(rho, sigma) = [Tr sqrt(sqrt(rho) sigma sqrt(rho))]^2
 
-    For the common squared-fidelity convention, set convention='squared'.
+        Sigma_ZZ >= 1/2 int_0^W d tau tau (1 - tau/W)
+                    [1 - sqrt(1 - F(rho_phi, rho_{phi+tau}))].
+
+    The older paper_unsquared/amplitude_as_written branch has intentionally been
+    removed, because a string-selectable fidelity convention makes the numerical
+    bound physically ambiguous.
     """
     W = float(prior_width)
-    taus = np.linspace(0.0, W, int(tau_points))
+    if W <= 0:
+        raise ValueError("prior_width must be positive.")
+    n_tau = int(tau_points)
+    if n_tau < 3:
+        raise ValueError("tau_points must be at least 3.")
+
+    taus = np.linspace(0.0, W, n_tau)
     vals = []
     for tau in taus:
-        sig = apply_signal_phase_shift(rho0, cutoff, tau)
-        F_amp = fidelity_unsquared(rho0, sig)
-        if convention == "paper_unsquared":
-            distinguish = 1.0 - np.sqrt(max(0.0, 1.0 - F_amp))
-        elif convention == "squared":
-            F_sq = F_amp**2
-            distinguish = 1.0 - np.sqrt(max(0.0, 1.0 - F_sq))
-        else:
-            raise ValueError(f"Unknown convention: {convention}")
-        vals.append(0.5 * tau * (1.0 - tau / W) * distinguish)
+        sig = apply_signal_phase_shift(rho0, cutoff, float(tau))
+        F_sq = uhlmann_fidelity_squared(rho0, sig)
+        vals.append(qzzb_integrand_from_fidelity_squared(float(tau), F_sq, W))
     try:
-    integral = np.trapezoid(vals, taus)
-except AttributeError:
-    integral = np.trapz(vals, taus)
-
-return float(integral)
+        integral = np.trapezoid(vals, taus)
+    except AttributeError:  # NumPy < 2.0
+        integral = np.trapz(vals, taus)
+    return float(integral)
