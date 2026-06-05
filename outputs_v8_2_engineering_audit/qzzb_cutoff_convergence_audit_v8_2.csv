@@ -1,0 +1,13 @@
+NS_target,cutoff,eta_s,eta_i,Gamma,prior_width,Sigma_ZZ,tail_probability,relative_change_from_previous_cutoff,converged_by_10pct_step_rule,note
+0.5,4,0.9,1.0,0.5,1.5707963267948966,0.1430663338987106,0.012345679012345677,,False,"finite-Fock QZZB audit; non-converged high-NS points are stress tests, not evidence of advantage."
+0.5,6,0.9,1.0,0.5,1.5707963267948966,0.1417158168754309,0.0013717421124828527,0.009529755062321803,True,"finite-Fock QZZB audit; non-converged high-NS points are stress tests, not evidence of advantage."
+0.5,8,0.9,1.0,0.5,1.5707963267948966,0.14155724045217283,0.0001524157902758725,0.0011202282748061796,True,"finite-Fock QZZB audit; non-converged high-NS points are stress tests, not evidence of advantage."
+0.5,10,0.9,1.0,0.5,1.5707963267948966,0.14153910217260302,1.693508780843028e-05,0.0001281503082285593,True,"finite-Fock QZZB audit; non-converged high-NS points are stress tests, not evidence of advantage."
+1.0,4,0.9,1.0,0.5,1.5707963267948966,0.1334756202309479,0.0625,,False,"finite-Fock QZZB audit; non-converged high-NS points are stress tests, not evidence of advantage."
+1.0,6,0.9,1.0,0.5,1.5707963267948966,0.13005323374547972,0.015625,0.02631527403744482,True,"finite-Fock QZZB audit; non-converged high-NS points are stress tests, not evidence of advantage."
+1.0,8,0.9,1.0,0.5,1.5707963267948966,0.12921857222650834,0.00390625,0.006459299964313913,True,"finite-Fock QZZB audit; non-converged high-NS points are stress tests, not evidence of advantage."
+1.0,10,0.9,1.0,0.5,1.5707963267948966,0.1290092444666758,0.0009765625,0.0016225795344969292,True,"finite-Fock QZZB audit; non-converged high-NS points are stress tests, not evidence of advantage."
+1.5,4,0.9,1.0,0.5,1.5707963267948966,0.12984656066932795,0.1296,,False,"finite-Fock QZZB audit; non-converged high-NS points are stress tests, not evidence of advantage."
+1.5,6,0.9,1.0,0.5,1.5707963267948966,0.1251249721756128,0.04665599999999999,0.03773498136797509,True,"finite-Fock QZZB audit; non-converged high-NS points are stress tests, not evidence of advantage."
+1.5,8,0.9,1.0,0.5,1.5707963267948966,0.12359401203626526,0.016796159999999994,0.0123870089992574,True,"finite-Fock QZZB audit; non-converged high-NS points are stress tests, not evidence of advantage."
+1.5,10,0.9,1.0,0.5,1.5707963267948966,0.12306116539057134,0.006046617599999997,0.004329933362834414,True,"finite-Fock QZZB audit; non-converged high-NS points are stress tests, not evidence of advantage."
